@@ -124,5 +124,5 @@ choco install terraform
 
 #Reboot
 Read-Host -Prompt "Configuration is done, restart is needed, press [ENTER] to restart computer."
-Restart-Computer
+## Restart-Computer
 

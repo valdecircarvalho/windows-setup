@@ -14,3 +14,5 @@ New-Item -ItemType "directory" -Path "$env:USERPROFILE\Documents\workdir\temp" |
 New-Item -ItemType "directory" -Path "$env:USERPROFILE\Documents\workdir\dotfiles" | Out-Null
 
 write-host "Directories already created..."
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/valdecircarvalho/windows-setup/master/script-install.ps1'))
