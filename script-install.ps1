@@ -38,88 +38,73 @@ Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 #InstallPagadges
-
 write-host "Installing softwares with Cholatey..."
 
-# Core 
-choco install chocolateygui
-choco install chocolatey-core.extension
+$applist = @(
+"chocolateygui",
+"chocolatey-core.extension",
+"googlechrome",
+"firefox",
+"7zip.install",
+"notepadplusplus.install",
+"greenshot",
+"putty.install",
+"curl",
+"wget",
+"jq",
+"winscp",
+"sysinternals",
+"cmder",
+"poshgit",
+"vscode",
+"postman",
+"git-lfs",
+"git.install",
+"gitextensions",
+"awscli",
+"azure-cli",
+"kubernetes-cli",
+"terraform",
+"packer",
+"consul",
+"vault",
+"powershell-core",
+"azurepowershell",
+"virtualbox",
+"vlc",
+"slack",
+"telegram.install",
+"googledrive",
+"zoom",
+"lastpass",
+"mobaxterm",
+"whatsapp",
+"rsat",
+"etcher",
+"filezilla.server",
+"nano",
+"vmware-powercli-psmodule",
+"github-desktop",
+"hyper",
+"microsoft-windows-terminal",
+"awstools.powershell",
+"teracopy",
+"veeam-endpoint-backup-free",
+"rvtools",
+"chocolateyexplorer",
+"wsl",
+"packer",
+"terraform"
 
-## Browsers
-choco install googlechrome
-choco install firefox
+)
 
-# Tools
-choco install 7zip.install
-choco install notepadplusplus.install
-choco install greenshot
+foreach($app in $applist) {
 
-# Sysadmin Tools
-choco install putty.install
-
-choco install curl
-choco install wget
-choco install jq
-
-choco install winscp
-choco install sysinternals
-choco install cmder
-choco install poshgit
-
-# DevTools
-choco install vscode
-choco install postman
-
-
-# DevOps 
-choco install git-lfs
-choco install git.install
-choco install gitextensions
-choco install awscli
-choco install azure-cli
-#choco install puppet-agent
-choco install kubernetes-cli
-choco install terraform
-choco install packer
-choco install consul
-choco install vault
-choco install powershell-core
-choco install azurepowershell
-
-choco install virtualbox
-
-# Multimedia
-
-choco install vlc
-
-# Messengers
-choco install slack
-choco install telegram.install
-
-choco install googledrive
-choco install zoom
-choco install lastpass
-choco install mobaxterm
-choco install whatsapp
-choco install rsat
-choco install etcher
-choco install filezilla.server
-choco install nano
-choco install vmware-powercli-psmodule
-choco install github-desktop
-choco install hyper
-choco install microsoft-windows-terminal
-choco install awstools.powershell
-choco install teracopy
-choco install veeam-endpoint-backup-free
-choco install rvtools
-choco install chocolateyexplorer
-choco install wsl
-choco install packer
-choco install terraform
-
-
-
+write-host "Installing"  $app "..."
+Start-Sleep -s 1
+write-host "choco install"  $app  "-y" 
+Start-Sleep -s 1
+}
 
 
 #Reboot
