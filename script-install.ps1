@@ -102,7 +102,7 @@ foreach($app in $applist) {
 
 write-host "Installing"  $app "..."
 Start-Sleep -s 1
-write-host "choco install"  $app  "-y" 
+choco install $app -y 
 Start-Sleep -s 1
 }
 
