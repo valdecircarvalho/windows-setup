@@ -5,19 +5,20 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 #Install Cholatey
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+## Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-Write-Output "Installing chocolatey"
+Write-Output "Installing Chocolatey..."
     Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     Write-Output "Refreshing environment variables. If rest of the scritp fails, restart elevated shell and rerun script."
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
+Write-Output "Installing Scoop..."
     iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
     scoop bucket add extras https://github.com/lukesampson/scoop-extras.git
     
 
 #InstallPagadges
-write-host "Installing softwares with Cholatey..."
+write-output "Installing softwares with Cholatey..."
 
 $applist = @(
 "chocolateygui",
@@ -40,7 +41,7 @@ $applist = @(
 "git-lfs",
 "git.install",
 "gitextensions",
-"git --package-parameters="'/GitAndUnixToolsOnPath /WindowsTerminal'"",
+"git",
 "github-desktop",
 "awscli",
 "azure-cli",
@@ -116,7 +117,6 @@ choco install -y vcredist2015
 choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
 
 #--- Ubuntu ---
-# TODO: Move this to choco install once --root is included in that package
 Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Ubuntu.appx -UseBasicParsing
 Add-AppxPackage -Path ~/Ubuntu.appx
 # run the distro once and have it install locally with root user, unset password
