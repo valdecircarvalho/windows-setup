@@ -30,7 +30,7 @@ $applist = @("Microsoft.Windows.Cortana",
 
 foreach($app in $applist) {
 
-    write-host "Removing"  $app "..."
+    Write-Output  "Removing"  $app "..."
     Start-Sleep -s 1
     Get-AppxPackage $app | Remove-AppxPackage
     Start-Sleep -s 1

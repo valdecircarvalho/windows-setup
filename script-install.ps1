@@ -86,17 +86,15 @@ $applist = @(
 "docker-for-windows",
 "python",
 "vcredist2015",
-"",
-"",
-)
-choco install slack
-choco install telegram
-choco install whatsapp
-choco install zoom
+"slack",
+"telegram",
+"whatsapp",
+"zoom",
 
+)
 foreach($app in $applist) {
 
-write-host "Installing"  $app "..."
+Write-Output  "Installing"  $app "..."
 Start-Sleep -s 1
 choco install $app -y --acceptlicense --force --no-progress --log-file="$env:USERPROFILE\Documents\workdir\temp\choco-install.log"
 Start-Sleep -s 1
@@ -122,7 +120,5 @@ Ubuntu1804 install --root
 Ubuntu1804 run apt update
 Ubuntu1804 run apt upgrade -y
 
-#Reboot
-Read-Host -Prompt "Configuration is done, restart is needed, press [ENTER] to restart computer."
-## Restart-Computer
+
 

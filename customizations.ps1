@@ -1,6 +1,6 @@
 # Rename computer
 $computerName = Read-Host 'Enter New Computer Name'
-Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
+Write-Output  "Renaming this computer to: " $computerName  -ForegroundColor Yellow
 Rename-Computer -NewName $computerName
 
 #avoid sleep
