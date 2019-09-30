@@ -114,7 +114,7 @@ python -m pip install --upgrade pip
 RefreshEnv
 
 
-$windowsfeatures = @(
+$wf = @(
     "Containers",
     "HypervisorPlatform",
     "Microsoft-Windows-Subsystem-Linux",
@@ -136,10 +136,10 @@ $windowsfeatures = @(
     "ServicesForNFS-ClientOnly"
 )
 
-foreach ($windowsfeature in $featurelist) {
+foreach ($wf in $f) {
     Write-Output  "Installing"  $windowsfeature "..."
     Start-Sleep -s 1
-    Enable-WindowsOptionalFeature -Online -FeatureName $windowsfeature -All
+    Enable-WindowsOptionalFeature -Online -FeatureName $wf -All
     RefreshEnv
     Start-Sleep -s 1
 }
