@@ -12,13 +12,14 @@ Write-Output "Installing Chocolatey..."
     Write-Output "Refreshing environment variables. If rest of the scritp fails, restart elevated shell and rerun script."
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
-#Write-Output "Installing Scoop..."
-#    Set-ExecutionPolicy Bypass -Scope Process -Force; iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
-#    scoop bucket add extras https://github.com/lukesampson/scoop-extras.git
+Write-Output "Installing Scoop..."
+    Set-ExecutionPolicy Bypass -Scope Process -Force; iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+    scoop bucket add extras https://github.com/lukesampson/scoop-extras.git
     
-#Write-Output "Installing Boxstarter..."
-#    Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
-#    Import-Module Boxstarter.Chocolatey
+Write-Output "Installing Boxstarter..."
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
+    Import-Module Boxstarter.Chocolatey
 
 
 #InstallPagadges
