@@ -16,6 +16,11 @@ Write-Output "Installing Scoop..."
     iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
     scoop bucket add extras https://github.com/lukesampson/scoop-extras.git
     
+Write-Output "Installing Boxstarter..."
+
+    iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
+    Import-Module Boxstarter.Chocolatey
+
 
 #InstallPagadges
 write-output "Installing softwares with Cholatey..."
@@ -77,44 +82,35 @@ $applist = @(
 "wsl",
 "packer",
 "terraform",
+"python"
+"docker-for-windows",
 "python",
+"vcredist2015",
+"",
+"",
 )
+choco install slack
+choco install telegram
+choco install whatsapp
+choco install zoom
 
 foreach($app in $applist) {
 
 write-host "Installing"  $app "..."
 Start-Sleep -s 1
-choco install $app -y 
+choco install $app -y --acceptlicense --force --no-progress --log-file="$env:USERPROFILE\Documents\workdir\temp\choco-install.log"
 Start-Sleep -s 1
 }
-
-Enable-WindowsOptionalFeature -Online -FeatureName containers -All
-RefreshEnv
-choco install -y docker-for-windows
-choco install -y vscode-docker
-
-choco install -y Microsoft-Hyper-V-All --source="'windowsFeatures'"
-# Install python
-choco install -y python --version=3.5.4
-
-# Refresh path
-refreshenv
 
 # Update pip
 python -m pip install --upgrade pip
 
-# Install ML related python packages through pip
-pip install numpy
-pip install scipy
-pip install pandas
-pip install matplotlib
-pip install tensorflow
-pip install keras
-
-# Get Visual Studio C++ Redistributables
-choco install -y vcredist2015
-
+choco install -y Microsoft-Hyper-V-All --source="'windowsFeatures'"
 choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
+
+Enable-WindowsOptionalFeature -Online -FeatureName containers -All
+RefreshEnv
+
 
 #--- Ubuntu ---
 Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Ubuntu.appx -UseBasicParsing
