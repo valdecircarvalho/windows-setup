@@ -2,40 +2,19 @@
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 
 
-# Rename computer
-$computerName = Read-Host 'Enter New Computer Name'
-Write-Host "Renaming this computer to: " $computerName  -ForegroundColor Yellow
-Rename-Computer -NewName $computerName
-
-#avoid sleep
-Powercfg /Change monitor-timeout-ac 20
-Powercfg /Change standby-timeout-ac 0
-
-# add this pc to desktop
-
-$thisPCIconRegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"
-$thisPCRegValname = "{20D04FE0-3AEA-1069-A2D8-08002B30309D}"
-$item = Get-ItemProperty -Path $thisPCIconRegPath -Name $thisPCRegValname -ErrorAction SilentlyContinue
-
-if ($item) {
-Set-ItemProperty  -Path $thisPCIconRegPath -name $thisPCRegValname -Value 0  
-}
-
-else {
-New-ItemProperty -Path $thisPCIconRegPath -Name $thisPCRegValname -Value 0 -PropertyType DWORD  | Out-Null  
-}
-
-# Enable developer mode
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1"
-
-# Enable remote desktop
-Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\" -Name "fDenyTSConnections" -Value 0
-Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\" -Name "UserAuthentication" -Value 1
-Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
 #Install Cholatey
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+Write-Output "Installing chocolatey"
+    Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    Write-Output "Refreshing environment variables. If rest of the scritp fails, restart elevated shell and rerun script."
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+    iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+    scoop bucket add extras https://github.com/lukesampson/scoop-extras.git
+    
 
 #InstallPagadges
 write-host "Installing softwares with Cholatey..."
@@ -61,6 +40,8 @@ $applist = @(
 "git-lfs",
 "git.install",
 "gitextensions",
+"git --package-parameters="'/GitAndUnixToolsOnPath /WindowsTerminal'"",
+"github-desktop",
 "awscli",
 "azure-cli",
 "kubernetes-cli",
@@ -94,8 +75,8 @@ $applist = @(
 "chocolateyexplorer",
 "wsl",
 "packer",
-"terraform"
-
+"terraform",
+"python",
 )
 
 foreach($app in $applist) {
@@ -106,6 +87,44 @@ choco install $app -y
 Start-Sleep -s 1
 }
 
+Enable-WindowsOptionalFeature -Online -FeatureName containers -All
+RefreshEnv
+choco install -y docker-for-windows
+choco install -y vscode-docker
+
+choco install -y Microsoft-Hyper-V-All --source="'windowsFeatures'"
+# Install python
+choco install -y python --version=3.5.4
+
+# Refresh path
+refreshenv
+
+# Update pip
+python -m pip install --upgrade pip
+
+# Install ML related python packages through pip
+pip install numpy
+pip install scipy
+pip install pandas
+pip install matplotlib
+pip install tensorflow
+pip install keras
+
+# Get Visual Studio C++ Redistributables
+choco install -y vcredist2015
+
+choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
+
+#--- Ubuntu ---
+# TODO: Move this to choco install once --root is included in that package
+Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Ubuntu.appx -UseBasicParsing
+Add-AppxPackage -Path ~/Ubuntu.appx
+# run the distro once and have it install locally with root user, unset password
+
+RefreshEnv
+Ubuntu1804 install --root
+Ubuntu1804 run apt update
+Ubuntu1804 run apt upgrade -y
 
 #Reboot
 Read-Host -Prompt "Configuration is done, restart is needed, press [ENTER] to restart computer."
