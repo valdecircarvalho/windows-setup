@@ -34,6 +34,7 @@ $applist = @(
 "notepadplusplus.install",
 "greenshot",
 "putty.install",
+"superputty",
 "curl",
 "wget",
 "jq",
@@ -90,6 +91,9 @@ $applist = @(
 "telegram",
 "whatsapp",
 "zoom",
+"microsoft-teams.install",
+"vmware-workstation",
+"vmware-powercli-psmodule"
 
 )
 foreach($app in $applist) {
@@ -97,20 +101,53 @@ foreach($app in $applist) {
 Write-Output  "Installing"  $app "..."
 Start-Sleep -s 1
 choco install $app -y --acceptlicense --force --no-progress --log-file="$env:USERPROFILE\Documents\workdir\temp\choco-install.log"
+RefreshEnv
 Start-Sleep -s 1
 }
 
 # Update pip
 python -m pip install --upgrade pip
 
-choco install -y Microsoft-Hyper-V-All --source="'windowsFeatures'"
-choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
+#choco install -y Microsoft-Hyper-V-All --source="'windowsFeatures'"
+#choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
 
-Enable-WindowsOptionalFeature -Online -FeatureName containers -All
+#Enable-WindowsOptionalFeature -Online -FeatureName containers -All
 RefreshEnv
 
 
+$windowsfeatures = @(
+    "Containers",
+    "HypervisorPlatform",
+    "Microsoft-Windows-Subsystem-Linux",
+    "VirtualMachinePlatform",
+    "SimpleTCP",
+    "Microsoft-Hyper-V-All",
+    "Containers-DisposableClientVM",
+    "Microsoft-Hyper-V-Tools-All",
+    "Microsoft-Hyper-V",  
+    "TelnetClient",
+    "Windows-Defender-Default-Definitions",
+    "Microsoft-Hyper-V-Management-PowerShell",
+    "Microsoft-Hyper-V-Services",
+    "Microsoft-Hyper-V-Hypervisor",      
+    "Microsoft-Hyper-V-Management-Clients",
+    "Windows-Defender-ApplicationGuard",
+    "NFS-Administration",
+    "ClientForNFS-Infrastructure",
+    "ServicesForNFS-ClientOnly"
+)
+
+foreach ($windowsfeature in $featurelist) {
+    Write-Output  "Installing"  $windowsfeature "..."
+    Start-Sleep -s 1
+    Enable-WindowsOptionalFeature -Online -FeatureName $windowsfeature -All
+    RefreshEnv
+    Start-Sleep -s 1
+}
+
+
 #--- Ubuntu ---
+Write-Output  "Installing Ubuntu on WSL..."
 Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Ubuntu.appx -UseBasicParsing
 Add-AppxPackage -Path ~/Ubuntu.appx
 # run the distro once and have it install locally with root user, unset password
@@ -119,6 +156,3 @@ RefreshEnv
 Ubuntu1804 install --root
 Ubuntu1804 run apt update
 Ubuntu1804 run apt upgrade -y
-
-
-

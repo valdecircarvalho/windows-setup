@@ -35,3 +35,5 @@ foreach($app in $applist) {
     Get-AppxPackage $app | Remove-AppxPackage
     Start-Sleep -s 1
     }
+
+# Get-WindowsOptionalFeature -Online | ? state -eq 'disabled' | select featurename | sort -Descending
