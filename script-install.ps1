@@ -57,7 +57,6 @@ $applist = @(
 "vault",
 "powershell-core",
 "azurepowershell",
-"virtualbox",
 "vlc",
 "slack",
 "telegram.install",

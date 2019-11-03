@@ -16,6 +16,7 @@ New-Item -ItemType "directory" -Path "$env:USERPROFILE\Documents\workdir\dotfile
 Write-Output  "Directories already created..."
 Start-Sleep -s 5
 
+exit 
 Write-Output  "Executing Install script..."
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/valdecircarvalho/windows-setup/master/script-install.ps1'))
 
