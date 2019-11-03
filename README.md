@@ -13,7 +13,9 @@ https://download.microsoft.com/download/4/C/7/4C7DA85D-03DE-4B89-B8E0-386437331C
 
 Install updates
 
+### Sempre verifique o script antes de executar!!! 
 
 Open powershell command with administrative rights
 
 Execute >>> iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/valdecircarvalho/windows-setup/master/bootstrap.ps1'))
+
