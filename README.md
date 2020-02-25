@@ -17,5 +17,5 @@ Install updates
 
 Open powershell command with administrative rights
 
-Execute >>> iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/valdecircarvalho/windows-setup/master/bootstrap.ps1'))
+Execute >>> iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/valdecircarvalho/windows-setup/master/1-bootstrap.ps1'))
 
