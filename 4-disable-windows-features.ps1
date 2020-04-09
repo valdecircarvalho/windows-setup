@@ -25,7 +25,6 @@ $applist = @("Microsoft.Windows.Cortana",
 "Microsoft.ZuneMusic", 
 "Microsoft.People", 
 "Microsoft.Getstarted", 
-"Microsoft.Office.OneNote",  
 "Microsoft.WindowsFeedbackHub", 
 "Microsoft.MicrosoftStickyNotes", 
 "Microsoft.XboxGamingOverlay")
