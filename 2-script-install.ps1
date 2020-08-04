@@ -31,17 +31,17 @@ $applist = @(
 "chocolatey-fastanswers.extension",
 "chocolatey-windowsupdate.extension",
 "googlechrome",
-"microsoft-edge",
+#"microsoft-edge",
 "7zip.install",
 "notepadplusplus.install",
-"poshgit",
-"vscode",
+#"poshgit",
+#"vscode",
 "git-lfs",
 "git",
 "gitextensions",
 "git",
 "curl",
-"teracopy",
+"teracopy"
 #"DotNet4.5",
 #"DotNet4.5.2",
 #"DotNet4.6.1",
@@ -53,9 +53,9 @@ $applist = @(
 #"KB2999226",
 #"KB3033929",
 #"KB3035131",
-"vcredist140",
-"vcredist2010",
-"vcredist2015"
+#"vcredist140",
+#"vcredist2010",
+#"vcredist2015"
 )
 
 
